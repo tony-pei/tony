@@ -1,0 +1,35 @@
+name=`dialog --stdout --inputbox "請輸入你的名子" 8 40`;
+dialog --title "你的名子" --msgbox "$name" 8 40;
+
+age=`dialog --stdout --inputbox "請輸入你的年齡" 8 40`;
+dialog --title "你的年齡" --msgbox "$age" 8 40;
+
+gender=$(dialog --stdout --title "選擇性別" --radiolist "請選擇你的性別：" 10 40 2 \
+        1 "男性" ON \
+        2 "女性" OFF)
+
+
+if [ -z "$gender" ]; then
+     gender="未選擇"
+elif [ "$gender" -eq 1 ]; then
+    gender="男性"
+    website="https://zh.wikipedia.org/zh-tw/%E7%94%B7%E6%80%A7"
+elif [ "$gender" -eq 2 ]; then
+    gender="女性"
+    website="https://zh.wikipedia.org/zh-tw/%E5%A5%B3%E6%80%A7"
+fi
+
+
+dialog --title "你的性別" --msgbox "你的性別是：$gender" 8 40
+
+
+if [ "$gender" == "未選擇" ]; then
+        dialog --title "未選擇性別" --msgbox "你沒有選擇性別，無法自動導向網站。" 8 50
+else
+        dialog --title "網站資訊" --msgbox "你將被導向到：\n$website" 8 50
+        xdg-open "$website" &> /dev/null  # 自動開啟對應網站
+fi
+
+結束訊息
+dialog --title "完成" --msgbox "謝謝！" 8 40
+~                                                                                                                               ~                                                                             
